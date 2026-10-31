@@ -381,9 +381,18 @@ function updateOverlay(){
   img.style.transform=`translate(calc(-50% + ${ovX}px), calc(-50% + ${ovY}px)) scale(${ovScale/100}) rotate(${ovRot}deg)`;
 }
 
+function _ovMove(e){
+  if(!ovDragging) return;
+  const p=e.touches?e.touches[0]:e;
+  ovX=ovOrigX+(p.clientX-ovStartX);
+  ovY=ovOrigY+(p.clientY-ovStartY);
+  updateOverlay();
+}
+function _ovUp(){if(ovDragging){ovDragging=false;map.dragging.enable();}}
+
 function setupOverlayDrag(){
   const img=document.getElementById('overlay-img');
-  const onDown=e=>{
+  img.onmousedown=img.ontouchstart=e=>{
     if(tracing) return;
     ovDragging=true;
     const p=e.touches?e.touches[0]:e;
@@ -391,17 +400,6 @@ function setupOverlayDrag(){
     map.dragging.disable();
     e.preventDefault();
   };
-  const onMove=e=>{
-    if(!ovDragging) return;
-    const p=e.touches?e.touches[0]:e;
-    ovX=ovOrigX+(p.clientX-ovStartX);
-    ovY=ovOrigY+(p.clientY-ovStartY);
-    updateOverlay();
-  };
-  const onUp=()=>{if(ovDragging){ovDragging=false;map.dragging.enable();}};
-  img.onmousedown=onDown;img.ontouchstart=onDown;
-  window.addEventListener('mousemove',onMove);window.addEventListener('touchmove',onMove,{passive:false});
-  window.addEventListener('mouseup',onUp);window.addEventListener('touchend',onUp);
 }
 
 function lockOverlayAndTrace(){
@@ -471,6 +469,10 @@ function init(){
   tileLayer=L.tileLayer(TILES.dark.url,{attribution:TILES.dark.attr,maxZoom:19}).addTo(map);
   map.on('click',onMapClick);
   map.on('mousemove',onMapMouseMove);
+  window.addEventListener('mousemove',_ovMove);
+  window.addEventListener('touchmove',_ovMove,{passive:false});
+  window.addEventListener('mouseup',_ovUp);
+  window.addEventListener('touchend',_ovUp);
   buildCrewPicker('crew-picker',selCrew,toggleSelCrew);
   renderAllLayers();
   renderList();
