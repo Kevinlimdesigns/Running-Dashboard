@@ -193,18 +193,20 @@ Bottom-centre pill, `--s2` with a `--bds` border, 12px text. Fades in over 0.2s.
 ## Map styling
 
 ### Tiles
-- **🌙 Dark (default):** OSM with `filter: invert(1) hue-rotate(180deg) brightness(0.95) contrast(0.9)` applied to `tilePane` only, so routes and markers keep their real colours.
+- **🌙 Dark (default):** OSM with `filter: grayscale(1) invert(1) brightness(0.95) contrast(0.9)` applied to `tilePane` only, so routes and markers keep their real colours. The map is fully grey on purpose: routes should be the only colour on screen. (An earlier hue-rotated invert turned roads pink/orange and camouflaged the warm route palette.)
 - **🗺 Street:** plain OSM.
 - **🛰 Satellite:** Esri World Imagery.
 - Default view is Singapore centre `[1.3521, 103.8198]`, zoom 12.
 
 ### Routes
-| State | Weight | Opacity |
+Every saved route is two polylines: a black casing underneath and the coloured line on top. The casing keeps routes legible on any tile mode.
+
+| State | Line weight / opacity | Casing weight / opacity |
 |---|---|---|
-| Idle | 3 | 0.4 |
-| Selected | 4 | 1.0 (and the map fits to its bounds) |
-| Other view | 0 | 0 (hidden) |
-| Drawing | 3, dashed `7 5` | 0.9 |
+| Idle | 4 / 0.8 | 7 / 0.45 |
+| Selected | 5 / 1.0 (and the map fits to its bounds) | 8 / 0.6 |
+| Other view | 0 / 0 (hidden) | 0 / 0 |
+| Drawing | 3 / 0.9, dashed `7 5` | none |
 
 ### Markers
 - **Start:** hollow circle, radius 6, route colour stroke, `#1c1c1c` fill.

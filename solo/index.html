@@ -394,7 +394,7 @@ function cancelOverlay(){
 }
 
 const TILES={
-  dark:{url:'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',attr:'© OpenStreetMap contributors',filter:'invert(1) hue-rotate(180deg) brightness(0.95) contrast(0.9)'},
+  dark:{url:'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',attr:'© OpenStreetMap contributors',filter:'grayscale(1) invert(1) brightness(0.95) contrast(0.9)'},
   street:{url:'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',attr:'© OpenStreetMap contributors',filter:''},
   sat:{url:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',attr:'© Esri',filter:''}
 };
@@ -616,13 +616,14 @@ function renderRouteLayer(route,colorIdx){
   const col=routeColor(colorIdx);
   const lg=L.layerGroup();
   const pts=route.loop?[...route.wpts,...[...route.wpts].reverse().slice(1)]:route.wpts;
-  const line=L.polyline(pts,{color:col,weight:3,opacity:.4}).addTo(lg);
+  const casing=L.polyline(pts,{color:'#000',weight:7,opacity:.45,interactive:false}).addTo(lg);
+  const line=L.polyline(pts,{color:col,weight:4,opacity:.8}).addTo(lg);
   line.on('click',e=>{L.DomEvent.stopPropagation(e);selectRoute(route.id);});
   L.circleMarker(route.wpts[0],{radius:6,color:col,fillColor:'#1c1c1c',fillOpacity:1,weight:2}).addTo(lg);
   if(route.wpts.length>1&&!route.loop){L.circleMarker(route.wpts[route.wpts.length-1],{radius:6,color:col,fillColor:col,fillOpacity:1,weight:2}).addTo(lg);}
   const chip=L.marker(midpt(route.wpts),{icon:chipIcon(route.dist,col),interactive:false,opacity:0}).addTo(lg);
   lg.addTo(map);
-  rLayers[route.id]={lg,line,chip,col};
+  rLayers[route.id]={lg,casing,line,chip,col};
 }
 
 function renderAllLayers(){
@@ -633,7 +634,8 @@ function applyAllOpacities(){
   routes.forEach(r=>{
     const l=rLayers[r.id];if(!l)return;
     const isActive=r.id===activeId;
-    l.line.setStyle({opacity:isActive?1:.4,weight:isActive?4:3});
+    l.line.setStyle({opacity:isActive?1:.8,weight:isActive?5:4});
+    l.casing.setStyle({opacity:isActive?.6:.45,weight:isActive?8:7});
     l.chip.setOpacity(isActive?1:0);
   });
 }
