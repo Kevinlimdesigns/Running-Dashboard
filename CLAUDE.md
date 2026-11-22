@@ -79,4 +79,6 @@ Claude's artifact preview blocks remote images, so map tiles never show there. U
 
 ## Deploying
 
-Pushing to `main` triggers GitHub's built-in `pages-build-deployment`. It takes about 1–2 minutes. If a push doesn't trigger it, an empty commit to `main` will.
+GitHub Pages serves `main` from the repo root. Both variants deploy together (`/` and `/solo/`). Branches are not variants.
+
+Pushes made through Claude's GitHub connection do **not** trigger `pages-build-deployment`, and neither does an empty commit pushed that way. After merging to `main`, Kevin has to make any small commit on github.com (e.g. edit `README.md`) to publish. The build takes about 1–2 minutes.
