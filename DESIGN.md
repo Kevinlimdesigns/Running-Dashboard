@@ -193,7 +193,8 @@ Bottom-centre pill, `--s2` with a `--bds` border, 12px text. Fades in over 0.2s.
 ## Map styling
 
 ### Tiles
-- **🌙 Dark (default):** OSM with `filter: grayscale(1) invert(1) brightness(0.95) contrast(0.9)` applied to `tilePane` only, so routes and markers keep their real colours. The map is fully grey on purpose: routes should be the only colour on screen. (An earlier hue-rotated invert turned roads pink/orange and camouflaged the warm route palette.)
+- **🌙 Dark (default):** OSM with `filter: invert(1) hue-rotate(180deg) grayscale(0.65) brightness(1.3) contrast(1.15)` applied to `tilePane` only, so routes and markers keep their real colours. About a third of the colour is kept: water reads dim blue and parks dim green for orientation, while major roads keep only a faint pink tint, so they don't compete with the routes.
+  - Tried and rejected: full-colour invert (pink/orange roads camouflaged routes) and full grayscale (water ≈ land, map too dark to read).
 - **🗺 Street:** plain OSM.
 - **🛰 Satellite:** Esri World Imagery.
 - Default view is Singapore centre `[1.3521, 103.8198]`, zoom 12.
