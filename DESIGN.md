@@ -200,14 +200,14 @@ Bottom-centre pill, `--s2` with a `--bds` border, 12px text. Fades in over 0.2s.
 - Default view is Singapore centre `[1.3521, 103.8198]`, zoom 12.
 
 ### Routes
-Every saved route is two polylines: a black casing underneath and the coloured line on top. The casing keeps routes legible on any tile mode.
+Plain coloured polylines, no casing or glow. A dark casing and bolder 6px lines were tried and rejected as too heavy.
 
-| State | Line weight / opacity | Casing weight / opacity |
+| State | Weight | Opacity |
 |---|---|---|
-| Idle | 6 / 1.0 | 10 / 0.65 |
-| Selected | 7 / 1.0 (and the map fits to its bounds, distance chip shows) | 11 / 0.8 |
-| Other view | 0 / 0 (hidden) | 0 / 0 |
-| Drawing | 3 / 0.9, dashed `7 5` | none |
+| Idle | 4 | 0.9 |
+| Selected | 5 | 1.0 (and the map fits to its bounds, distance chip shows) |
+| Other view | 0 | 0 (hidden) |
+| Drawing | 3, dashed `7 5` | 0.9 |
 
 ### Markers
 - **Start:** hollow circle, radius 6, route colour stroke, `#1c1c1c` fill.

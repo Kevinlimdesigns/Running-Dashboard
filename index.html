@@ -730,14 +730,13 @@ function renderRouteLayer(route,colorIdx){
   const col=palette[colorIdx%palette.length];
   const lg=L.layerGroup();
   const pts=route.loop?[...route.wpts,...[...route.wpts].reverse().slice(1)]:route.wpts;
-  const casing=L.polyline(pts,{color:'#000',weight:10,opacity:.65,interactive:false}).addTo(lg);
-  const line=L.polyline(pts,{color:col,weight:6,opacity:1}).addTo(lg);
+  const line=L.polyline(pts,{color:col,weight:4,opacity:.9}).addTo(lg);
   line.on('click',e=>{L.DomEvent.stopPropagation(e);if(route.view===curView)selectRoute(route.id);});
   L.circleMarker(route.wpts[0],{radius:6,color:col,fillColor:'#1c1c1c',fillOpacity:1,weight:2}).addTo(lg);
   if(route.wpts.length>1&&!route.loop){L.circleMarker(route.wpts[route.wpts.length-1],{radius:6,color:col,fillColor:col,fillOpacity:1,weight:2}).addTo(lg);}
   const chip=L.marker(midpt(route.wpts),{icon:chipIcon(route.dist,col),interactive:false,opacity:0}).addTo(lg);
   lg.addTo(map);
-  rLayers[route.id]={lg,casing,line,chip,col,view:route.view};
+  rLayers[route.id]={lg,line,chip,col,view:route.view};
 }
 
 function renderAllLayers(){
@@ -754,9 +753,8 @@ function applyAllOpacities(){
     const isCurrentView=r.view===curView;
     const isActive=r.id===activeId;
     // hide routes from the other view
-    if(!isCurrentView){l.line.setStyle({opacity:0,weight:0});l.casing.setStyle({opacity:0,weight:0});l.chip.setOpacity(0);return;}
-    l.line.setStyle({opacity:1,weight:isActive?7:6});
-    l.casing.setStyle({opacity:isActive?.8:.65,weight:isActive?11:10});
+    if(!isCurrentView){l.line.setStyle({opacity:0,weight:0});l.chip.setOpacity(0);return;}
+    l.line.setStyle({opacity:isActive?1:.9,weight:isActive?5:4});
     l.chip.setOpacity(isActive?1:0);
   });
 }
