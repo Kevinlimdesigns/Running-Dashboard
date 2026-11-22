@@ -447,7 +447,7 @@ function cancelOverlay(){
 }
 
 const TILES={
-  dark:{url:'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',attr:'© OpenStreetMap contributors',filter:'invert(1) hue-rotate(180deg) grayscale(0.65) brightness(1.3) contrast(1.15)'},
+  dark:{url:'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',attr:'© OpenStreetMap contributors',filter:'invert(1) hue-rotate(180deg) grayscale(0.85) contrast(0.95)'},
   street:{url:'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',attr:'© OpenStreetMap contributors',filter:''},
   sat:{url:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',attr:'© Esri',filter:''}
 };
@@ -730,8 +730,8 @@ function renderRouteLayer(route,colorIdx){
   const col=palette[colorIdx%palette.length];
   const lg=L.layerGroup();
   const pts=route.loop?[...route.wpts,...[...route.wpts].reverse().slice(1)]:route.wpts;
-  const casing=L.polyline(pts,{color:'#000',weight:7,opacity:.45,interactive:false}).addTo(lg);
-  const line=L.polyline(pts,{color:col,weight:4,opacity:.8}).addTo(lg);
+  const casing=L.polyline(pts,{color:'#000',weight:10,opacity:.65,interactive:false}).addTo(lg);
+  const line=L.polyline(pts,{color:col,weight:6,opacity:1}).addTo(lg);
   line.on('click',e=>{L.DomEvent.stopPropagation(e);if(route.view===curView)selectRoute(route.id);});
   L.circleMarker(route.wpts[0],{radius:6,color:col,fillColor:'#1c1c1c',fillOpacity:1,weight:2}).addTo(lg);
   if(route.wpts.length>1&&!route.loop){L.circleMarker(route.wpts[route.wpts.length-1],{radius:6,color:col,fillColor:col,fillOpacity:1,weight:2}).addTo(lg);}
@@ -755,8 +755,8 @@ function applyAllOpacities(){
     const isActive=r.id===activeId;
     // hide routes from the other view
     if(!isCurrentView){l.line.setStyle({opacity:0,weight:0});l.casing.setStyle({opacity:0,weight:0});l.chip.setOpacity(0);return;}
-    l.line.setStyle({opacity:isActive?1:.8,weight:isActive?5:4});
-    l.casing.setStyle({opacity:isActive?.6:.45,weight:isActive?8:7});
+    l.line.setStyle({opacity:1,weight:isActive?7:6});
+    l.casing.setStyle({opacity:isActive?.8:.65,weight:isActive?11:10});
     l.chip.setOpacity(isActive?1:0);
   });
 }

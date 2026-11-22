@@ -193,8 +193,8 @@ Bottom-centre pill, `--s2` with a `--bds` border, 12px text. Fades in over 0.2s.
 ## Map styling
 
 ### Tiles
-- **🌙 Dark (default):** OSM with `filter: invert(1) hue-rotate(180deg) grayscale(0.65) brightness(1.3) contrast(1.15)` applied to `tilePane` only, so routes and markers keep their real colours. About a third of the colour is kept: water reads dim blue and parks dim green for orientation, while major roads keep only a faint pink tint, so they don't compete with the routes.
-  - Tried and rejected: full-colour invert (pink/orange roads camouflaged routes) and full grayscale (water ≈ land, map too dark to read).
+- **🌙 Dark (default):** OSM with `filter: invert(1) hue-rotate(180deg) grayscale(0.85) contrast(0.95)` applied to `tilePane` only, so routes and markers keep their real colours. It's a muted map: a hint of blue water and green parks for orientation, with roads mostly grey so the routes are what stands out.
+  - Tried and rejected: full-colour invert (pink/orange roads camouflaged routes), full grayscale (water ≈ land, too dark), and 65% grayscale + brightness 1.3 (readable but too busy).
 - **🗺 Street:** plain OSM.
 - **🛰 Satellite:** Esri World Imagery.
 - Default view is Singapore centre `[1.3521, 103.8198]`, zoom 12.
@@ -204,8 +204,8 @@ Every saved route is two polylines: a black casing underneath and the coloured l
 
 | State | Line weight / opacity | Casing weight / opacity |
 |---|---|---|
-| Idle | 4 / 0.8 | 7 / 0.45 |
-| Selected | 5 / 1.0 (and the map fits to its bounds) | 8 / 0.6 |
+| Idle | 6 / 1.0 | 10 / 0.65 |
+| Selected | 7 / 1.0 (and the map fits to its bounds, distance chip shows) | 11 / 0.8 |
 | Other view | 0 / 0 (hidden) | 0 / 0 |
 | Drawing | 3 / 0.9, dashed `7 5` | none |
 
