@@ -394,10 +394,12 @@ function cancelOverlay(){
 }
 
 const TILES={
-  dark:{url:'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png',attr:'© <a href="https://stadiamaps.com/">Stadia Maps</a> © <a href="https://openmaptiles.org/">OpenMapTiles</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'},
-  street:{url:'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',attr:'© OpenStreetMap contributors'},
-  sat:{url:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',attr:'© Esri'}
+  dark:{url:'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',attr:'© OpenStreetMap contributors',filter:'invert(1) hue-rotate(180deg) brightness(0.95) contrast(0.9)'},
+  street:{url:'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',attr:'© OpenStreetMap contributors',filter:''},
+  sat:{url:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',attr:'© Esri',filter:''}
 };
+
+function getTilePane(){return map.getPane('tilePane');}
 
 function routeColor(i){return COLORS[i%COLORS.length];}
 
@@ -412,6 +414,7 @@ function init(){
   loadData();
   map=L.map('map',{center:[1.3521,103.8198],zoom:12,zoomControl:true});
   tileLayer=L.tileLayer(TILES.dark.url,{attribution:TILES.dark.attr,maxZoom:19}).addTo(map);
+  getTilePane().style.filter=TILES.dark.filter;
   map.on('click',onMapClick);
   map.on('mousemove',onMapMouseMove);
   window.addEventListener('mousemove',_ovMove);
@@ -426,6 +429,7 @@ function init(){
 function setTile(t){
   map.removeLayer(tileLayer);
   tileLayer=L.tileLayer(TILES[t].url,{attribution:TILES[t].attr,maxZoom:19}).addTo(map);
+  getTilePane().style.filter=TILES[t].filter;
   document.querySelectorAll('.tt-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('btn-'+t).classList.add('active');
 }
